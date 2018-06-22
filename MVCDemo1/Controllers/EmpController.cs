@@ -16,6 +16,7 @@ namespace MVCDemo1.Controllers
             List<Employee> employees = employeeBusinessLayer.Employees.ToList();
             return View(employees);
         }
+
         [HttpGet]
         public ActionResult Create()
         {
@@ -23,7 +24,8 @@ namespace MVCDemo1.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(/*FormCollection formCollection*/ string name,string gender, string city)
+        [ActionName("Create")]
+        public ActionResult Create_Post(/*FormCollection formCollection*/ /*string name,string gender, string city*/ /*Employee employee*/ )
         {
             //foreach( string key in formCollection.AllKeys)
             //{
@@ -40,13 +42,28 @@ namespace MVCDemo1.Controllers
             //employeeBusinessLayer.AddEmployee(employee);
             //return RedirectToAction("Index");
 
-            Employee employee = new Employee();
-            employee.Name = name;
-            employee.City = city;
-            employee.Gender = gender;
-            EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
-            employeeBusinessLayer.AddEmployee(employee);
-            return RedirectToAction("Index");
+            //Employee employee = new Employee();
+            //employee.Name = name;
+            //employee.City = city;
+            //employee.Gender = gender;
+
+            //if( ModelState.IsValid)
+            //{
+            //    EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+            //    employeeBusinessLayer.AddEmployee(employee);
+            //    return RedirectToAction("Index");
+            //}
+            //return View();
+
+            if(ModelState.IsValid)
+            {
+                Employee employee = new Employee();
+                UpdateModel(employee);
+                EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+                employeeBusinessLayer.AddEmployee(employee);
+                return RedirectToAction("Index");
+            }
+            return View();
         }
     }
 }
