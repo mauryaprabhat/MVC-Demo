@@ -55,10 +55,12 @@ namespace MVCDemo1.Controllers
             //}
             //return View();
 
-            if(ModelState.IsValid)
+            
+             Employee employee = new Employee();
+            //UpdateModel(employee);
+            TryUpdateModel(employee);
+            if (ModelState.IsValid)
             {
-                Employee employee = new Employee();
-                UpdateModel(employee);
                 EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
                 employeeBusinessLayer.AddEmployee(employee);
                 return RedirectToAction("Index");
