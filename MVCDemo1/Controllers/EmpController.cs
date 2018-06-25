@@ -67,5 +67,44 @@ namespace MVCDemo1.Controllers
             }
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+            Employee employee = employeeBusinessLayer.Employees.FirstOrDefault(emp => emp.Id == id);
+            return View(employee);
+        }
+
+        [HttpPost]
+        [ActionName("Edit")]
+        public ActionResult Edit_Post(int  id)
+        {
+            EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+            Employee employee = employeeBusinessLayer.Employees.Single(x => x.Id == id);
+            UpdateModel(employee, new string[] { "Id", "Name", "Gender", "City" });
+            if (ModelState.IsValid)
+            {                               
+                employeeBusinessLayer.EditEmployee(employee);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+                EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+                Employee employee = employeeBusinessLayer.Employees.FirstOrDefault(emp => emp.Id == id);
+                employeeBusinessLayer.DetailEmployee(employee);
+                return View(employee);
+        }
+        public ActionResult Delete(int id)
+        {
+            EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+            Employee employee = employeeBusinessLayer.Employees.FirstOrDefault(emp => emp.Id == id);
+            employeeBusinessLayer.DeleteEmployee(employee);
+            return View();
+
+        }
     }
 }
