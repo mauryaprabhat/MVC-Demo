@@ -78,11 +78,12 @@ namespace MVCDemo1.Controllers
 
         [HttpPost]
         [ActionName("Edit")]
-        public ActionResult Edit_Post(int  id)
+        public ActionResult Edit_Post([Bind(Include ="Id, Gender, City")] Employee employee)
         {
             EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
-            Employee employee = employeeBusinessLayer.Employees.Single(x => x.Id == id);
-            UpdateModel(employee, new string[] { "Id", "Name", "Gender", "City" });
+            employee.Name = employeeBusinessLayer.Employees.Single(x => x.Id == employee.Id).Name;
+
+           // UpdateModel(employee, new string[] { "Id", "Name", "Gender", "City" });
             if (ModelState.IsValid)
             {                               
                 employeeBusinessLayer.EditEmployee(employee);
@@ -90,6 +91,7 @@ namespace MVCDemo1.Controllers
             }
             return View();
         }
+
         [HttpGet]
         public ActionResult Details(int id)
         {
