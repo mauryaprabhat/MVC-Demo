@@ -78,11 +78,12 @@ namespace MVCDemo1.Controllers
 
         [HttpPost]
         [ActionName("Edit")]
-        public ActionResult Edit_Post([Bind(Include ="Id, Gender, City")] Employee employee)
+        public ActionResult Edit_Post(/*[Bind(Include ="Id, Gender, City")] Employee employee*/ int id)
         {
-            EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
-            employee.Name = employeeBusinessLayer.Employees.Single(x => x.Id == employee.Id).Name;
 
+            EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+            Employee employee = employeeBusinessLayer.Employees.Single(x => x.Id == id);
+            UpdateModel<IEmployee>(employee);
            // UpdateModel(employee, new string[] { "Id", "Name", "Gender", "City" });
             if (ModelState.IsValid)
             {                               
@@ -100,13 +101,14 @@ namespace MVCDemo1.Controllers
                 employeeBusinessLayer.DetailEmployee(employee);
                 return View(employee);
         }
+
+        [HttpPost]
         public ActionResult Delete(int id)
         {
             EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
             Employee employee = employeeBusinessLayer.Employees.FirstOrDefault(emp => emp.Id == id);
-            employeeBusinessLayer.DeleteEmployee(employee);
-            return View();
-
+            employeeBusinessLayer.DeleteEmployee(id);
+            return RedirectToAction("Index");
         }
     }
 }

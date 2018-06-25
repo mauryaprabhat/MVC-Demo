@@ -120,11 +120,9 @@ namespace BusinessLayer
                 cmd.ExecuteNonQuery();
             }
         }
-        public void DeleteEmployee(Employee employee)
+        public void DeleteEmployee(int id)
         {
-            string connectionString =
-            ConfigurationManager.ConnectionStrings["EmployeeContext"].ConnectionString;
-
+            string connectionString = ConfigurationManager.ConnectionStrings["EmployeeContext"].ConnectionString;
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("spDeleteEmployee", con);
@@ -132,7 +130,7 @@ namespace BusinessLayer
 
                 SqlParameter paramId = new SqlParameter();
                 paramId.ParameterName = "@id";
-                paramId.Value = employee.Id;
+                paramId.Value = id;
                 cmd.Parameters.Add(paramId);
 
                 con.Open();

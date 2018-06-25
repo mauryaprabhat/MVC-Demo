@@ -7,7 +7,14 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer
 {
-    public class Employee
+    public interface IEmployee
+    {
+         int Id { get; set; }
+         string Gender { get; set; }
+         string City { get; set; }
+
+    }
+    public class Employee: IEmployee
     {
         [Required]
         public int Id { get; set; }
